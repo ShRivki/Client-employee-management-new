@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import './Header.css'; // קובץ CSS עם עיצובים נוספים
+import './Header.css'; 
 
 const ROUTES = {
   HOME: '/HomePage',

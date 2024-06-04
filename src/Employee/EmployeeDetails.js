@@ -1,6 +1,5 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import { Button } from "semantic-ui-react";
 import { useNavigate } from "react-router-dom";
 import { formatDateString } from "./EmployeeList";
 import "../App.css";

@@ -5,7 +5,6 @@ import { useLocation } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button } from 'semantic-ui-react';
 import { addEmployee, editEmployee } from '../services/employeeService'
 import { getRoles, addRole } from '../services/rolesService'
 import '../App.css'
