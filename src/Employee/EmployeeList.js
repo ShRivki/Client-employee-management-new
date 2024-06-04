@@ -23,7 +23,7 @@ const EmployeeList = ({ user, employees }) => {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            if (filter === lastSearchTerm.current) {
+            if (filter == lastSearchTerm.current) {
                 setTimeout(() => {
                     if (filter !== "")
                         dispatch(FindEmployee(user, filter))

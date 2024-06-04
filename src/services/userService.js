@@ -12,7 +12,7 @@ export const logIn = (data, navigate) => {
 
             dispatch({ type: actionType.LOG_IN, user });
             localStorage.setItem("user", JSON.stringify(user));
-            const isDirector = user.roles.some(role => role.role.name === "Director");
+            const isDirector = user.roles.some(role => role.role.name == "Director");
             localStorage.setItem("isDirector", isDirector ? "true" : "false");
             navigate("/");
 

@@ -2,8 +2,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f2f2f2; /* רקע אפור */
-    height: 80px; /* גובה */
+    background-color: #f2f2f2;
+    height: 80px;
     display: flex;
 }
 
@@ -16,17 +16,17 @@
 .link-button {
     background-color: transparent;
     border: none;
-    color: rgb(19 23 122); /* צבע כפתור */
-    font-size: 20px; /* גודל גופן */
+    color: rgb(19 23 122); 
+    font-size: 20px; 
     cursor: pointer;
-    margin: 0 10px; /* מרווח בין הכפתורים */
-    padding: 10px 20px; /* גודל הכפתור */
-    border-radius: 15px; /* עיגול קצוות */
+    margin: 0 10px; 
+    padding: 10px 20px;
+    border-radius: 15px;
     text-decoration: none;
-    transition: background-color 0.3s, color 0.3s; /* אנימציה */
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .link-button:hover {
-    border-bottom: rgb(19 23 122) 3px solid;; /* רקע צבעוני בעת העצירה */
+    border-bottom: rgb(19 23 122) 3px solid;; 
    border-radius: 0;
 }
