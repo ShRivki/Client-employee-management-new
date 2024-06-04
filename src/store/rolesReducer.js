@@ -1,4 +1,4 @@
-import actions, * as actiontype from './actions'
+import  * as actiontype from './actions'
 const initialState = {
     roles: []
 }
