@@ -5,16 +5,16 @@ import Swal from "sweetalert2";
 const URL = 'https://localhost:7079/api/Employee';
 
 const filterEmployeesByManagementRole = (user, employees) => {
-    if (localStorage.getItem('isDirector') == "true")
+    if (localStorage.getItem('isDirector') === "true")
         return employees;
     const userManagementRoles = user.roles.filter(role => role.isManagement);
-    if (userManagementRoles.length == 0) {
+    if (userManagementRoles.length === 0) {
         return [];
     }
     const filteredEmployees = employees.filter(employee => {
         return userManagementRoles.some(userRole => {
             return employee.roles.some(role => {
-                return role.role.id == userRole.role.id || user.id == employee.id;
+                return role.role.id === userRole.role.id || user.id === employee.id;
             });
         });
     });

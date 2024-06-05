@@ -5,14 +5,14 @@ import * as actiontype from '../store/actions';
 const URL = 'https://localhost:7079/api/Role';
 
 export const filterRolesByManagementRole = (user, roles) => {
-    if (localStorage.getItem('isDirector') == "true") {
+    if (localStorage.getItem('isDirector') === "true") {
         return roles;
     }
     const userManagementRoles = user.roles.filter(role => role.isManagement);
-    if (userManagementRoles.length == 0) {
+    if (userManagementRoles.length === 0) {
         return [];
     }
-    const filteredRoles = roles.filter(role => userManagementRoles.some(managedRole => managedRole.role.id == role.id));
+    const filteredRoles = roles.filter(role => userManagementRoles.some(managedRole => managedRole.role.id === role.id));
     return filteredRoles;
 }
 

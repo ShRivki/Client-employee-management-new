@@ -13,7 +13,7 @@ const EmployeesReducer = (state = initialState, action) => {
         }
         case actiontype.EDIT_EMPLOYEE: {
             const employees = [...state.employees];
-            const findIndex = employees.findIndex(x => x.id == action.data.id);
+            const findIndex = employees.findIndex(x => x.id === action.data.id);
             console.log(employees[findIndex]);
             employees[findIndex] = action.data;
             console.log(employees[findIndex]);
