@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -18,35 +18,35 @@ const EmployeeList = ({ user, employees }) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getEmployee(user))
-    }, []);
+        dispatch(getEmployee(user));
+    }, [dispatch, user]);
 
     useEffect(() => {
         const timer = setTimeout(() => {
             if (filter === lastSearchTerm.current) {
                 setTimeout(() => {
                     if (filter !== "")
-                        dispatch(FindEmployee(user, filter))
+                        dispatch(FindEmployee(user, filter));
                     else
-                        dispatch(getEmployee(user))
+                        dispatch(getEmployee(user));
                 }, 500);
             }
         }, 500);
         return () => clearTimeout(timer);
-    }, [filter]);
+    }, [filter, dispatch, user]);
 
     const handleChange = (e) => {
         setFilter(e.target.value);
         lastSearchTerm.current = e.target.value;
     };
 
-    const handleExport = () => {
+    const handleExport = useCallback(() => {
         const csvContent = employees.map(e => [e.firstName, e.lastName, e.identity, e.startDate].join(",")).join("\n");
         const csvBlob = new Blob([csvContent], { type: 'text/csv;charset=utf-8' });
         saveAs(csvBlob, 'employees.csv');
-    };
+    }, [employees]);
 
-    const printEmployee = (employee) => {
+    const printEmployee = useCallback((employee) => {
         return (
             <tr key={employee.id}>
                 <td>{employee.firstName}</td>
@@ -76,7 +76,7 @@ const EmployeeList = ({ user, employees }) => {
                 </td>
             </tr>
         );
-    };
+    }, [dispatch, navigate, user.id]);
 
     return (
         <>
@@ -104,8 +104,7 @@ const EmployeeList = ({ user, employees }) => {
                     </thead>
                     <tbody>
                         <Outlet />
-                        {employees?.map((employee) =>
-                            printEmployee(employee))}
+                        {employees?.map((employee) => printEmployee(employee))}
                     </tbody>
                 </table>
             </div>
@@ -114,7 +113,7 @@ const EmployeeList = ({ user, employees }) => {
 };
 
 export default () => {
-    const { state } = useLocation();
+    const location = useLocation();
     const { user, employees } = useSelector(state => ({
         user: state.User.user,
         employees: state.Employee.employees
