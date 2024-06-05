@@ -44,7 +44,7 @@ export default () => {
         });
         data.roles = list;
         const employee = { ...data, active: state?.active || true, Id: state?.id };
-        state !== null && dispatch(editEmployee((employee))) || state == null && dispatch(addEmployee(employee));
+        state !== null && dispatch(editEmployee((employee))) || state === null && dispatch(addEmployee(employee));
         navigate('/EmployeeList');
     }
     const {
@@ -102,7 +102,7 @@ export default () => {
     return <div className="square-box edit">
         <br />
         <button className="close-button" onClick={() => navigate("/EmployeeList")}><i className="window close icon"></i></button>
-        {localStorage.getItem('isDirector') == "true" && (
+        {localStorage.getItem('isDirector') === "true" && (
             <div id="form">
                 <input type="text" placeholder="enter role" name="role" onChange={(event) => {
                     SetRole(prevRole => ({ ...prevRole, name: event.target.value }));

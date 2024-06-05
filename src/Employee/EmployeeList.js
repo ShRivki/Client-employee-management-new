@@ -23,7 +23,7 @@ const EmployeeList = ({ user, employees }) => {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            if (filter == lastSearchTerm.current) {
+            if (filter === lastSearchTerm.current) {
                 setTimeout(() => {
                     if (filter !== "")
                         dispatch(FindEmployee(user, filter))
@@ -54,14 +54,14 @@ const EmployeeList = ({ user, employees }) => {
                 <td>{employee.identity}</td>
                 <td>{formatDateString(employee.startDate)}</td>
                 <td>
-                    <button className="button but" disabled={localStorage.getItem('isDirector') == "false" && user.id == employee.id} onClick={() => {
+                    <button className="button but" disabled={localStorage.getItem('isDirector') === "false" && user.id === employee.id} onClick={() => {
                         navigate("AddEmployee", { state: employee });
                     }}>
                         <i className="edit outline icon"></i>
                     </button>
                 </td>
                 <td>
-                    <button className="button but" disabled={user.id == employee.id} onClick={() => {
+                    <button className="button but" disabled={user.id === employee.id} onClick={() => {
                         dispatch(deleteEmployee(employee.id));
                     }}>
                         <i className="trash alternate icon"></i>
