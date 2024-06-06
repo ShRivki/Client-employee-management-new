@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 const LogOut= () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         dispatch(logOut(navigate))
     }, []);

@@ -69,9 +69,9 @@ const AddEmployee = () => {
             startDate: state?.startDate.split('T')[0],
             dateOfBirth: state?.dateOfBirth.split('T')[0],
             gender: state?.gender,
-            roles: state?.roles.map(role => ({
+            roles: state?.roles.forEach(role => ({
                 ...role,
-                startDate: role.startDate.split('T')[0]
+              startDate: role.startDate.split('T')[0]
             })) || [],
         }
     })
@@ -84,7 +84,7 @@ const AddEmployee = () => {
     const [roleSelected, setRoleSelected] = useState([]);
     const handleRoleChange = useCallback(() => {
         const rolesId = [];
-        fields.map((x) => { rolesId.push(+x.role.id); })
+        fields.forEach((x) => { rolesId.push(+x.role.id); })
         console.log(rolesId);
         setRoleSelected(rolesId)
     }, [fields]);
@@ -157,14 +157,14 @@ const AddEmployee = () => {
                                     </div>
                                     <div>
                                         <h2>תפקידים:</h2>
-                                        {fields.map((x, i) => (
+                                        {fields.forEach((x, i) => (
                                             <div key={i} id="card">
                                                 <div className="field">
                                                     <label>{i + 1} role:</label>
                                                     <div>
                                                         <button onClick={() => { remove(i); handleRoleChange() }}><i className="trash icon"></i></button>
                                                         <select {...register(`roles[${i}].role.id`)} defaultValue={state?.roles[i]?.role?.id || ""} onChange={(e) => handleRoleChange()}>
-                                                            {roles.map((x) => {
+                                                            {roles.forEach((x) => {
                                                                 const isRoleSelected = roleSelected.includes(x.id);
                                                                 return (<option key={x.id} value={x.id} disabled={isRoleSelected}> {x.name} </option>);
                                                             })}

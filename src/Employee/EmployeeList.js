@@ -16,11 +16,11 @@ const EmployeeList = ({ user, employees }) => {
     const lastSearchTerm = useRef(null);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         dispatch(getEmployee(user))
     }, []);
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         const timer = setTimeout(() => {
             if (filter === lastSearchTerm.current) {
@@ -114,7 +114,6 @@ const EmployeeList = ({ user, employees }) => {
 };
 
 export default () => {
-    const { state } = useLocation();
     const { user, employees } = useSelector(state => ({
         user: state.User.user,
         employees: state.Employee.employees
