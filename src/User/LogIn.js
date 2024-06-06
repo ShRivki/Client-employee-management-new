@@ -7,7 +7,7 @@ import { logIn } from '../services/userService';
 
 const schema = yup.object({
   UserName: yup.string().required('Required field'),
-  Password: yup.string().required('Required field').min(3, 'סיסמא חייבת להכיל לפחות 3 תווים'),
+  Password: yup.string().required('Required field').min(3, ' סיסמא חייבת להכיל לפחות 3 תווים'),
 }).required();
 
 export default function App() {
