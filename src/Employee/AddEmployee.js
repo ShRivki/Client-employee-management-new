@@ -3,7 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { addEmployee, editEmployee } from '../services/employeeService';
 import { getRoles, addRole } from '../services/rolesService';
@@ -37,13 +37,13 @@ const AddEmployee = () => {
         roles: state.Roles.roles,
     }));
     const dispatch = useDispatch();
-
     const onSubmit = (data) => {
-        const list = data.roles.map(role => ({
-            roleId: role.role.id,
-            startDate: role.startDate,
-            isManagement: role.isManagement
-        }));
+        var list = []
+        data.roles.forEach(role => {
+            alert(role.role.id);
+            var a = { "roleId": role.role.id, "startDate": role.startDate, "isManagement": role.isManagement }
+            list.push(a)
+        });
         data.roles = list;
         const employee = { ...data, active: state?.active || true, Id: state?.id };
         if (state !== null) {
@@ -54,7 +54,12 @@ const AddEmployee = () => {
         navigate('/EmployeeList');
     }
 
-    const { register, handleSubmit, formState: { errors }, control } = useForm({
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        control
+    } = useForm({
         resolver: yupResolver(schema),
         defaultValues: {
             firstName: state?.firstName,
@@ -69,7 +74,7 @@ const AddEmployee = () => {
                 startDate: role.startDate.split('T')[0]
             })) || [],
         }
-    });
+    })
 
     const { fields, append, remove } = useFieldArray({
         control,
@@ -77,33 +82,36 @@ const AddEmployee = () => {
     });
 
     const [roleSelected, setRoleSelected] = useState([]);
-    const handleRoleChange = () => {
-        const rolesId = fields.map(x => +x.role.id);
+    const handleRoleChange = useCallback(() => {
+        const rolesId = [];
+        fields.map((x) => { rolesId.push(+x.role.id); })
         console.log(rolesId);
-        setRoleSelected(rolesId);
-    };
+        setRoleSelected(rolesId)
+    }, [fields]);
 
     useEffect(() => {
         handleRoleChange();
-    }, [fields]);
+    }, [handleRoleChange]);
 
     const [dateStartWork, SetdateStartWork] = useState(state?.startDate.split('T')[0]);
-    const [role, SetRole] = useState({ name: "" });
+    const [role, SetRole] = useState({ "name": "" });
 
     useEffect(() => {
         dispatch(getRoles(user));
-    }, [role, dispatch, user]);
+    }, [dispatch, user]);
 
-    const generateInputField = (label, registerName, iconName, type = 'text') => (
-        <div className="field">
-            <label>{label}:</label>
-            <div className="ui right icon input">
-                <input type={type} placeholder={label} {...register(registerName)} />
-                <i className={`${iconName} icon`}></i>
+    const generateInputField = (label, registerName, iconName, type = 'text') => {
+        return (
+            <div className="field">
+                <label>{label}:</label>
+                <div className="ui right icon input">
+                    <input type={type} placeholder={label} {...register(registerName)} />
+                    <i className={`${iconName} icon`}></i>
+                </div>
+                {errors[registerName] && <p className="ui pointing red basic label">{errors[registerName]?.message}</p>}
             </div>
-            {errors[registerName] && <p className="ui pointing red basic label">{errors[registerName]?.message}</p>}
-        </div>
-    );
+        );
+    }
 
     return (
         <div className="square-box edit">
@@ -114,7 +122,9 @@ const AddEmployee = () => {
                     <input type="text" placeholder="enter role" name="role" onChange={(event) => {
                         SetRole(prevRole => ({ ...prevRole, name: event.target.value }));
                     }} />
-                    <button className="button but" onClick={() => dispatch(addRole(role))}>הוסף תפקיד</button>
+                    <button className="button but" onClick={() => {
+                        dispatch(addRole(role));
+                    }}>הוסף תפקיד</button>
                 </div>
             )}
             <div id="container">
@@ -153,12 +163,10 @@ const AddEmployee = () => {
                                                     <label>{i + 1} role:</label>
                                                     <div>
                                                         <button onClick={() => { remove(i); handleRoleChange() }}><i className="trash icon"></i></button>
-                                                        <select {...register(`roles[${i}].role.id`)} defaultValue={state?.roles[i]?.role?.id || ""} onChange={handleRoleChange}>
-                                                            {roles.map(x => {
+                                                        <select {...register(`roles[${i}].role.id`)} defaultValue={state?.roles[i]?.role?.id || ""} onChange={(e) => handleRoleChange()}>
+                                                            {roles.map((x) => {
                                                                 const isRoleSelected = roleSelected.includes(x.id);
-                                                                return (
-                                                                    <option key={x.id} value={x.id} disabled={isRoleSelected}> {x.name} </option>
-                                                                );
+                                                                return (<option key={x.id} value={x.id} disabled={isRoleSelected}> {x.name} </option>);
                                                             })}
                                                         </select>
                                                     </div>
@@ -186,6 +194,6 @@ const AddEmployee = () => {
             </div>
         </div>
     );
-};
+}
 
 export default AddEmployee;
