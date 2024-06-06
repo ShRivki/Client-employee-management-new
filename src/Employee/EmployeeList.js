@@ -36,7 +36,7 @@ const EmployeeList = ({ user, employees }) => {
         return () => clearTimeout(timer);
     }, [filter, dispatch, user]);
 
-    // הוסף את dispatch ואת user לרשימת התלויות של useEffect
+
 
     const handleChange = (e) => {
         setFilter(e.target.value);
@@ -116,8 +116,7 @@ const EmployeeList = ({ user, employees }) => {
     );
 };
 
-export default () => {
-    const { state } = useLocation();
+const EmployeeListDefault=() => {
     const { user, employees } = useSelector(state => ({
         user: state.User.user,
         employees: state.Employee.employees
@@ -125,3 +124,4 @@ export default () => {
 
     return <EmployeeList user={user} employees={employees} />;
 };
+export default EmployeeListDefault;

@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 
 const HomePage = () => {
-
     const images = [
         require('./Image/אאוטסורסינג-2-1021x580.jpg'),
         require('./Image/migrated-b7b11bd6bb14a402bdf3be32a648e4f1-31.jpg'),
@@ -10,14 +9,13 @@ const HomePage = () => {
 
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-    const changeImage = () => {
-        setCurrentImageIndex(prevIndex => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
-    };
-
     useEffect(() => {
+        const changeImage = () => {
+            setCurrentImageIndex(prevIndex => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
+        };
         const interval = setInterval(changeImage, 5000);
         return () => clearInterval(interval);
-    }, [changeImage]);
+    }, [images.length]);
 
     return (
         <div style={{
