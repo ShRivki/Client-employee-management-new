@@ -13,11 +13,11 @@ const HomePage = () => {
     const changeImage = () => {
         setCurrentImageIndex(prevIndex => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
     useEffect(() => {
         const interval = setInterval(changeImage, 5000);
         return () => clearInterval(interval);
-    }, []);
+    }, [changeImage]);
 
     return (
         <div style={{

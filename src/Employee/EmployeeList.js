@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom"; // ניתן להסיר אם לא בוצע שימוש
 import { getEmployee, FindEmployee, deleteEmployee } from '../services/employeeService';
 import { saveAs } from 'file-saver';
 import '../App.css';
@@ -16,24 +16,26 @@ const EmployeeList = ({ user, employees }) => {
     const lastSearchTerm = useRef(null);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
     useEffect(() => {
-        dispatch(getEmployee(user))
-    }, []);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        dispatch(getEmployee(user));
+    }, [dispatch, user]);
+
     useEffect(() => {
         const timer = setTimeout(() => {
             if (filter === lastSearchTerm.current) {
                 setTimeout(() => {
                     if (filter !== "")
-                        dispatch(FindEmployee(user, filter))
+                        dispatch(FindEmployee(user, filter));
                     else
-                        dispatch(getEmployee(user))
+                        dispatch(getEmployee(user));
                 }, 500);
             }
         }, 500);
         return () => clearTimeout(timer);
-    }, [filter]);
+    }, [filter, dispatch, user]);
+
+    // הוסף את dispatch ואת user לרשימת התלויות של useEffect
 
     const handleChange = (e) => {
         setFilter(e.target.value);
@@ -114,6 +116,7 @@ const EmployeeList = ({ user, employees }) => {
 };
 
 export default () => {
+    const { state } = useLocation();
     const { user, employees } = useSelector(state => ({
         user: state.User.user,
         employees: state.Employee.employees
