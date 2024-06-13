@@ -13,7 +13,7 @@ const EmployeeDetails = React.lazy(() => import('./Employee/EmployeeDetails.js')
 
 function App() {
   return (
-    <><div id="root">
+    <>
       <Header />
       <div id="body" >
         <div id="body1">
@@ -32,7 +32,6 @@ function App() {
           </div>
         </div>
       </div>
-    </div>
     </>
   );
 }
